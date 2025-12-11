@@ -5,7 +5,6 @@ module FSM_Controller(
     input  logic        clk,
     input  logic        reset,
     input  logic [6:0]  opcode,
-
     output logic  [1:0] aluop,
     output logic        ALUSrc,
     output logic        PCWrite,
@@ -17,19 +16,21 @@ module FSM_Controller(
     output logic        RegWrite
 );
 
-    // FSM States
-    typedef enum logic [2:0] {
-        S_IF      = 3'd0,   // Instruction Fetch
-        S_ID      = 3'd1,   // Instruction Decode
-        S_EX      = 3'd2,   // Execute / ALU ops
-        S_MEM     = 3'd3,   // Memory access
-        S_WB      = 3'd4,   // Writeback
-        S_BRANCH  = 3'd5,   // Branch
-        S_JUMP    = 3'd6,   // Jump
-        S_HALT    = 3'd7    // HALT
-    } state_t;
 
-    state_t state, next_state;
+typedef enum logic [2:0] {
+    S_IF      = 3'b000,   // Instruction Fetch
+    S_ID      = 3'b001,   // Instruction Decode
+    S_EX      = 3'b010,   // Execute / ALU ops
+    S_MEM     = 3'b011,   // Memory access
+    S_WB      = 3'b100,   // Writeback
+    S_BRANCH  = 3'b101,   // Branch
+    S_JUMP    = 3'b110,   // Jump
+    S_HALT    = 3'b111    // HALT
+} FSM_STATE_T;
+    
+
+    logic [2:0] state;
+    logic [2:0] next_state;
 
     // -----------------------------
     // State register
@@ -87,7 +88,9 @@ module FSM_Controller(
                     next_state = S_IF;
             end
 
-            S_WB: next_state = S_IF;
+            S_WB: begin
+                next_state = S_IF;
+            end
 
             S_BRANCH,
             S_JUMP: next_state = S_IF;
@@ -107,6 +110,7 @@ module FSM_Controller(
         Jump      = 0;
         Branch    = 0;
         MemRead   = 0;
+        MemtoReg  = 0;
         MemWrite  = 0;
         RegWrite  = 0;
         ALUSrc    = 0;
@@ -126,33 +130,22 @@ module FSM_Controller(
             S_EX: begin
                 case (opcode)
                     OPC_RTYPE: begin
-                        RegWrite = 1;
                         aluop = ALU_OP_R;
                     end
                     
                     OPC_ITYPE: begin
                         ALUSrc = 1;
-                        RegWrite = 1;
                         aluop = ALU_OP_I;
                     end
                     
                     OPC_LTYPE: begin
                         ALUSrc = 1;
-                        MemtoReg = 1;
-                        RegWrite = 1;
-                        MemRead = 1;
                         aluop = ALU_OP_LOAD_STORE;
                     end
                     
                     OPC_STYPE: begin
                         ALUSrc = 1;
-                        MemWrite = 1;
                         aluop = ALU_OP_LOAD_STORE;
-                    end
-                    
-                    OPC_BTYPE: begin
-                        Branch = 1;
-                        aluop = ALU_OP_BRANCH;
                     end
                 endcase
             end
@@ -161,10 +154,13 @@ module FSM_Controller(
             // Memory Access
             // -------------------------
             S_MEM: begin
-                if(opcode == OPC_LTYPE)
+                if(opcode == OPC_LTYPE) begin
+                    MemtoReg = 1;
+                    RegWrite = 1;
                     MemRead = 1;
-                else if(opcode == OPC_STYPE)
+                end else if(opcode == OPC_STYPE) begin
                     MemWrite = 1;
+                end
             end
 
             // -------------------------

@@ -22,16 +22,7 @@
 
 `ifndef DEFINES_SV
 `define DEFINES_SV
-
-typedef enum logic [2:0] {
-    FSM_IDLE= 3'b000,
-    FSM_IF  = 3'b001,
-    FSM_ID  = 3'b010,
-    FSM_EX  = 3'b011,
-    FSM_MEM = 3'b100,
-    FSM_WB  = 3'b101
-} FSM_STATE_T;
-
+    
 typedef enum logic [4:0] {
     ALU_AND = 5'b00111,
     ALU_OR =  5'b00110,
