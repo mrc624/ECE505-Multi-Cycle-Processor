@@ -2,18 +2,18 @@
 `include "Defines.sv"
 
 module FSM_Controller(
-    input  logic        clk,
-    input  logic        reset,
-    input  logic [6:0]  opcode,
-    output logic  [1:0] aluop,
-    output logic        ALUSrc,
-    output logic        PCWrite,
-    output logic        Jump,
-    output logic        Branch,
-    output logic        MemRead,
-    output logic        MemtoReg,
-    output logic        MemWrite,
-    output logic        RegWrite
+    input  logic clk,
+    input  logic reset,
+    input  logic [6:0] opcode,
+    output logic [1:0] aluop,
+    output logic ALUSrc,
+    output logic PCWrite,
+    output logic Jump,
+    output logic Branch,
+    output logic MemRead,
+    output logic MemtoReg,
+    output logic MemWrite,
+    output logic RegWrite
 );
 
 
@@ -32,9 +32,7 @@ typedef enum logic [2:0] {
     logic [2:0] state;
     logic [2:0] next_state;
 
-    // -----------------------------
     // State register
-    // -----------------------------
     always_ff @(posedge clk or posedge reset) begin
         if (reset)
             state <= S_IF;
@@ -42,9 +40,7 @@ typedef enum logic [2:0] {
             state <= next_state;
     end
 
-    // -----------------------------
     // Next state logic
-    // -----------------------------
     always_comb begin
         next_state = state;
 
@@ -101,9 +97,8 @@ typedef enum logic [2:0] {
         endcase
     end
 
-    // -----------------------------
+
     // Output logic
-    // -----------------------------
     always_comb begin
         // Defaults
         PCWrite   = 0;
@@ -117,16 +112,9 @@ typedef enum logic [2:0] {
         aluop     = ALU_OP_LOAD_STORE;
 
         case(state)
-            // -------------------------
-            // Instruction Fetch
-            // -------------------------
             S_IF: begin
                 PCWrite = 1;   // increment PC
             end
-
-            // -------------------------
-            // Execute / ALU ops
-            // -------------------------
             S_EX: begin
                 case (opcode)
                     OPC_RTYPE: begin
@@ -149,10 +137,6 @@ typedef enum logic [2:0] {
                     end
                 endcase
             end
-
-            // -------------------------
-            // Memory Access
-            // -------------------------
             S_MEM: begin
                 if(opcode == OPC_LTYPE) begin
                     MemtoReg = 1;
@@ -162,23 +146,11 @@ typedef enum logic [2:0] {
                     MemWrite = 1;
                 end
             end
-
-            // -------------------------
-            // Writeback
-            // -------------------------
             S_WB: RegWrite = 1;
-
-            // -------------------------
-            // Branch
-            // -------------------------
             S_BRANCH: begin
                 Branch = 1;
                 aluop = ALU_OP_BRANCH;
             end
-
-            // -------------------------
-            // Jump
-            // -------------------------
             S_JUMP: begin
                 case (opcode)
                     OPC_JAL: begin
@@ -195,8 +167,7 @@ typedef enum logic [2:0] {
                     end
                 endcase
             end
-            
-            S_HALT: begin
+            S_HALT: begin // essentially set defaults
                 PCWrite = 0;
                 Jump = 0;
                 Branch = 0;
