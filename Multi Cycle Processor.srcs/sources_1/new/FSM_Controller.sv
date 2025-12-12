@@ -10,7 +10,6 @@ module FSM_Controller(
     output logic PCWrite,
     output logic Jump,
     output logic Branch,
-    output logic MemRead,
     output logic MemtoReg,
     output logic MemWrite,
     output logic RegWrite
@@ -104,7 +103,6 @@ typedef enum logic [2:0] {
         PCWrite   = 0;
         Jump      = 0;
         Branch    = 0;
-        MemRead   = 0;
         MemtoReg  = 0;
         MemWrite  = 0;
         RegWrite  = 0;
@@ -142,7 +140,6 @@ typedef enum logic [2:0] {
                     ALUSrc  = 1;
                     MemtoReg = 1;
                     RegWrite = 1;
-                    MemRead = 1;
                 end else if(opcode == OPC_STYPE) begin
                     MemWrite = 1;
                     ALUSrc = 1;
@@ -173,7 +170,6 @@ typedef enum logic [2:0] {
                 PCWrite = 0;
                 Jump = 0;
                 Branch = 0;
-                MemRead = 0;
                 MemWrite = 0;
                 RegWrite = 0;
                 ALUSrc = 0;
