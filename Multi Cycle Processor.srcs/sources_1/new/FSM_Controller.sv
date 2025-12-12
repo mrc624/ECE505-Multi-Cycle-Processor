@@ -49,8 +49,7 @@ typedef enum logic [2:0] {
             S_ID: begin
                 case(opcode)
                     OPC_RTYPE,
-                    OPC_ITYPE: next_state = S_EX;
-
+                    OPC_ITYPE,
                     OPC_LTYPE,
                     OPC_STYPE: next_state = S_EX;
 
@@ -68,9 +67,7 @@ typedef enum logic [2:0] {
             S_EX: begin
                 if(opcode == OPC_RTYPE || opcode == OPC_ITYPE)
                     next_state = S_WB;
-                else if(opcode == OPC_LTYPE)
-                    next_state = S_MEM;
-                else if(opcode == OPC_STYPE)
+                else if(opcode == OPC_LTYPE || opcode == OPC_STYPE)
                     next_state = S_MEM;
                 else
                     next_state = S_IF;
