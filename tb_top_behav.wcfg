@@ -12,15 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="40.800 ns"></ZoomStartTime>
-      <ZoomEndTime time="328.605 ns"></ZoomEndTime>
-      <Cursor1Time time="275.000 ns"></Cursor1Time>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="458.757 ns"></ZoomEndTime>
+      <Cursor1Time time="1,598.562 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="273"></NameColumnWidth>
+      <NameColumnWidth column_width="223"></NameColumnWidth>
       <ValueColumnWidth column_width="146"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="15" />
+   <WVObjectSize size="20" />
    <wvobject fp_name="/tb_top/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -57,6 +57,10 @@
       <obj_property name="ElementShortName">A[31:0]</obj_property>
       <obj_property name="ObjectShortName">A[31:0]</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_top/uut/imm" type="array">
+      <obj_property name="ElementShortName">imm[31:0]</obj_property>
+      <obj_property name="ObjectShortName">imm[31:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_top/uut/B" type="array">
       <obj_property name="ElementShortName">B[31:0]</obj_property>
       <obj_property name="ObjectShortName">B[31:0]</obj_property>
@@ -69,6 +73,18 @@
       <obj_property name="ElementShortName">RegWrite</obj_property>
       <obj_property name="ObjectShortName">RegWrite</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_top/uut/MemtoReg" type="logic">
+      <obj_property name="ElementShortName">MemtoReg</obj_property>
+      <obj_property name="ObjectShortName">MemtoReg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/MemRead" type="logic">
+      <obj_property name="ElementShortName">MemRead</obj_property>
+      <obj_property name="ObjectShortName">MemRead</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/mem_data" type="array">
+      <obj_property name="ElementShortName">mem_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_data[31:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_top/uut/wd" type="array">
       <obj_property name="ElementShortName">wd[31:0]</obj_property>
       <obj_property name="ObjectShortName">wd[31:0]</obj_property>
@@ -80,5 +96,9 @@
    <wvobject fp_name="/tb_top/uut/a4/file" type="array">
       <obj_property name="ElementShortName">file[31:0][31:0]</obj_property>
       <obj_property name="ObjectShortName">file[31:0][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wd_write" type="logic">
+      <obj_property name="ElementShortName">wd_write</obj_property>
+      <obj_property name="ObjectShortName">wd_write</obj_property>
    </wvobject>
 </wave_config>

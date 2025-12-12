@@ -139,11 +139,13 @@ typedef enum logic [2:0] {
             end
             S_MEM: begin
                 if(opcode == OPC_LTYPE) begin
+                    ALUSrc  = 1;
                     MemtoReg = 1;
                     RegWrite = 1;
                     MemRead = 1;
                 end else if(opcode == OPC_STYPE) begin
                     MemWrite = 1;
+                    ALUSrc = 1;
                 end
             end
             S_WB: RegWrite = 1;
